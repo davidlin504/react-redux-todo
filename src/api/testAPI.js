@@ -11,3 +11,8 @@ export async function testAPI() {
     Promise.reject(err)
   }
 }
+
+export async function login(payload) {
+  const res = await publicInstance.post('/login', payload)
+  return res.data
+}
