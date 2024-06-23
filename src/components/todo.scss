@@ -1,0 +1,12 @@
+.todo-content {
+  ul {
+    display: flex;
+    .MuiListItemText-root {
+      display: table;
+      span {
+        display: table-cell;
+        vertical-align: middle;
+      }
+    }
+  }
+}

@@ -1,41 +1,43 @@
-import React, { Component } from 'react';
-import { List } from 'material-ui/List';
+import React, { useEffect, useState } from 'react';
+import List from '@material-ui/core/List';
 
 import TodoRow from './TodoRow';
 import Footer from '../components/Footer';
+import { useSelector, useDispatch } from 'react-redux';
+import {
+  toggleComplete,
+  deleteTodo,
+  completeAll,
+  removeComplete,
+} from '../reducers/todoSlice'
+import { createSelector } from 'reselect'
 
-class TodoList extends Component {
-  state = {
-    currentFilter: 'all',
+const TodoList = ({todos}) => {
+
+  const [currentFilter, setCurrentFilter] = useState('')
+  const dispatch = useDispatch();
+
+  const handleCompleteTodo = (todo) => {
+    dispatch(toggleComplete(todo));
   };
 
-  handleCompleteTodo = id => {
-    return () => this.props.actions.completeTodo(id);
+  const handleRemoveTodo = (id) => {
+    dispatch(deleteTodo({id}));
   };
 
-  handleRemoveTodo = id => {
-    return () => this.props.actions.removeTodo(id);
+  const handleFilter = filter => {
+    setCurrentFilter(filter)
   };
 
-  handleFilter = filter => {
-    this.setState({
-      currentFilter: filter,
-    });
+  const handleRemoveCompleted = () => {
+    dispatch(removeComplete());
   };
 
-  handleRemoveCompleted = () => {
-    this.props.actions.removeCompleted();
+  const handleCompleteAll = () => {
+    dispatch(completeAll());
   };
 
-  handleCompleteAll = () => {
-    this.props.actions.completeAll();
-  };
-
-  render() {
-    const { todos } = this.props;
-    const { currentFilter } = this.state;
-
-    const filteredTodos = todos.filter(({ completed }) => {
+  const filteredTodos = todos.filter(({ completed }) => {
       switch (currentFilter) {
         case 'completed':
           return completed;
@@ -46,28 +48,28 @@ class TodoList extends Component {
       }
     });
 
-    return (
+
+  return (
       <div>
-        <List>
-          {filteredTodos.map(todo =>
+        <div className='todo-container'>
+          {filteredTodos.map((todo) =>
             <TodoRow
               key={todo.id}
               todo={todo}
-              handleCompleteTodo={this.handleCompleteTodo}
-              handleRemoveTodo={this.handleRemoveTodo}
+              handleRemoveTodo={handleRemoveTodo}
+              handleCompleteTodo={handleCompleteTodo}
             />
           )}
-        </List>
+        </div>
         <Footer
-          todos={todos}
-          handleFilter={this.handleFilter}
+          todos={filteredTodos}
+          handleFilter={handleFilter}
           currentFilter={currentFilter}
-          handleRemoveCompleted={this.handleRemoveCompleted}
-          handleCompleteAll={this.handleCompleteAll}
+          handleRemoveCompleted={handleRemoveCompleted}
+          handleCompleteAll={handleCompleteAll}
         />
       </div>
     );
-  }
 }
 
-export default TodoList;
+export default TodoList

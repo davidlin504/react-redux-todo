@@ -1,44 +1,37 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-import TextField from 'material-ui/TextField';
+import TextField from '@material-ui/core/TextField';
 
-class Header extends Component {
-  state = {
-    text: '',
-  };
+const Header = (props) => {
+  const { onSubmit } = props
+  const [text, setText] = useState('')
 
-  onChange = e => {
+
+  const onChange = e => {
     const { value: text } = e.target;
-
-    this.setState({
-      text,
-    });
+    setText(text)
   };
 
-  onKeyDown = e => {
+  const onKeyDown = e => {
     const { value } = e.target;
 
     if (e.which === 13) {
-      this.props.onSubmit(value);
+      onSubmit(value);
 
-      this.setState({
-        text: '',
-      });
+      setText('')
     }
   };
 
-  render() {
-    return (
-      <TextField
-        hintText="What do you need to do?"
-        floatingLabelText="What do you need to do?"
-        value={this.state.text}
-        onChange={this.onChange}
-        onKeyDown={this.onKeyDown}
-        style={styles.textField}
-      />
-    );
-  }
+  return (
+    <TextField
+      hintText="What do you need to do?"
+      floatingLabelText="What do you need to do?"
+      value={text}
+      onChange={onChange}
+      onKeyDown={onKeyDown}
+      style={styles.textField}
+    />
+  );
 }
 
 const styles = {

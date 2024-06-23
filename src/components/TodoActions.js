@@ -1,61 +1,81 @@
 import React, { Component } from 'react';
-import { RadioButton, RadioButtonGroup } from 'material-ui/RadioButton';
-import IconButton from 'material-ui/IconButton';
-import FontIcon from 'material-ui/FontIcon';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import IconButton from '@material-ui/core/IconButton';
+import Icon from '@material-ui/core/Icon';
+import { completeFilter, toggleComplete } from '../reducers/todoSlice'
+import { useDispatch } from 'react-redux';
 
-class TodoActions extends Component {
-  render() {
-    const {
-      todos,
-      currentFilter,
-      handleFilter,
-      handleRemoveCompleted,
-      handleCompleteAll,
-    } = this.props;
 
-    return (
-      <div style={styles.container}>
-        <RadioButtonGroup
-          name="filter"
-          defaultSelected={currentFilter}
-          onChange={(e, value) => handleFilter(value)}
-          style={styles.radioButtonGroup}
-        >
-          <RadioButton
-            label="All"
-            value="all"
-            style={styles.radioButton}
-          />
-          <RadioButton
-            label="Active"
-            value="active"
-            style={styles.radioButton}
-          />
-          <RadioButton
-            label="Completed"
-            value="completed"
-            style={styles.radioButton}
-          />
-        </RadioButtonGroup>
-        <IconButton onTouchTap={handleRemoveCompleted}>
-          <FontIcon
+const TodoActions = (props) => {
+  const dispatch = useDispatch();
+
+  const handleCompleteFilter = (todos) => {
+    todos.map(todo => {
+      dispatch(toggleComplete(todo))
+    })
+    // dispatch(completeFilter({todos}))
+  }
+
+  const {
+    todos,
+    currentFilter,
+    handleFilter,
+    handleRemoveCompleted,
+    handleCompleteAll,
+  } = props;
+  return (
+    <div style={styles.container}>
+      <RadioGroup
+        name="filter"
+        defaultSelected={currentFilter}
+        onChange={(e, value) => handleFilter(value)}
+        style={styles.radioButtonGroup}
+      >
+        <Radio
+          name="All"
+          value="all"
+          style={styles.radioButton}
+        /><span>all</span>
+        <Radio
+          name="Active"
+          value="active"
+          style={styles.radioButton}
+        /><span>active</span>
+        <Radio
+          name="Completed"
+          value="completed"
+          style={styles.radioButton}
+        /><span>checked</span>
+      </RadioGroup>
+      <div>
+        <IconButton onClick={handleRemoveCompleted}>
+          <Icon
             className="material-icons"
-            color="red"
+            color="error"
           >
             clear
-          </FontIcon>
+          </Icon>
         </IconButton>
-        <IconButton onTouchTap={handleCompleteAll}>
-          <FontIcon
+        <IconButton onClick={handleCompleteAll}>
+          <Icon
             className="material-icons"
-            color="blue"
+            color="success"
           >
             done_all
-          </FontIcon>
+          </Icon>
+        </IconButton>
+        <IconButton onClick={() => handleCompleteFilter(todos)}>
+          <Icon
+            className="material-icons"
+            color="info"
+          >
+            check
+          </Icon>
         </IconButton>
       </div>
-    );
-  }
+    </div>
+  )
 }
 
 const styles = {

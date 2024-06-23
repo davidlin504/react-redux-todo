@@ -1,0 +1,79 @@
+Arguments: 
+  /Users/harris/.nvm/versions/node/v16.10.0/bin/node /Users/harris/.yarn/bin/yarn.js
+
+PATH: 
+  /Users/harris/miniconda3/condabin:/Users/harris/.nvm/versions/node/v16.10.0/bin:/Users/harris/.yarn/bin:/Users/harris/.config/yarn/global/node_modules/.bin:/usr/local/bin:/Users/harris/Library/Python/3.11/bin:/Users/harris/.pyenv/shims:/Users/harris/.local/share/solana/install/active_release/bin:/Users/harris/.local/share/solana/install/active_release/bin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/usr/local/go/bin:/Users/harris/.cargo/bin:/usr/local/go/bin:/Users/harris/Documents/go/bin:/Users/harris/Library/Android/sdk/emulator:/Users/harris/Library/Android/sdk/tools:/Users/harris/Library/Android/sdk/tools/bin:/Users/harris/Library/Android/sdk/platform-tools
+
+Yarn version: 
+  1.22.5
+
+Node version: 
+  16.10.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  SyntaxError: /Users/harris/Documents/react-redux-todo/package.json: Unexpected token } in JSON at position 140
+      at JSON.parse (<anonymous>)
+      at /Users/harris/.yarn/lib/cli.js:1625:59
+      at Generator.next (<anonymous>)
+      at step (/Users/harris/.yarn/lib/cli.js:310:30)
+      at /Users/harris/.yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "todo-list",
+    "version": "0.1.0",
+    "private": true,
+    "resolutions": {
+      "react-scripts/**/react-error-overlay": "6.0.9",
+    },
+    "dependencies": {
+      "@material-ui/core": "^4.12.4",
+      "@material-ui/styles": "^4.11.5",
+      "@reduxjs/toolkit": "^1.6.1",
+      "@testing-library/jest-dom": "^5.14.1",
+      "@testing-library/react": "^11.2.7",
+      "@testing-library/user-event": "^12.8.3",
+      "bootstrap": "^5.1.1",
+      "formsy-material-ui": "^0.6.3",
+      "formsy-react": "^2.3.2",
+      "react": "^17.0.2",
+      "react-dom": "^17.0.2",
+      "react-redux": "^7.2.5",
+      "react-scripts": "4.0.3",
+      "redux": "^4.1.1",
+      "web-vitals": "^1.1.2"
+    },
+    "scripts": {
+      "start": "react-scripts start",
+      "build": "react-scripts build",
+      "test": "react-scripts test",
+      "eject": "react-scripts eject"
+    },
+    "eslintConfig": {
+      "extends": [
+        "react-app",
+        "react-app/jest"
+      ]
+    },
+    "browserslist": {
+      "production": [
+        ">0.2%",
+        "not dead",
+        "not op_mini all"
+      ],
+      "development": [
+        "last 1 chrome version",
+        "last 1 firefox version",
+        "last 1 safari version"
+      ]
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

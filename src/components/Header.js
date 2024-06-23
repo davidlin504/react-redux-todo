@@ -1,17 +1,21 @@
-import React, { Component } from 'react';
-
+import React from 'react';
+import { useDispatch } from 'react-redux';
 import TodoTextField from './TodoTextField';
+import { addTodo } from '../reducers/todoSlice'
 
-class Header extends Component {
-  render() {
-    const { addTodo } = this.props.actions;
+const Header = () => {
+  const dispatch = useDispatch();
 
-    return (
-      <div>
-        <TodoTextField onSubmit={text => addTodo(text)} />
-      </div>
-    );
-  }
+  const handleAddTodo = (text) => {
+      dispatch(addTodo({ text }));
+  };
+
+  return (
+    <div>
+      <TodoTextField onSubmit={text => handleAddTodo(text)} />
+    </div>
+  );
+
 }
 
-export default Header;
+export default Header

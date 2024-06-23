@@ -1,37 +1,43 @@
-import React, { Component } from 'react';
-import { ListItem } from 'material-ui/List';
-import Checkbox from 'material-ui/Checkbox';
-import FontIcon from 'material-ui/FontIcon';
-import IconButton from 'material-ui/IconButton';
+import React, { useEffect, useCallback } from 'react';
+import ListItem from '@material-ui/core/List';
+import ListItemText from '@material-ui/core/ListItemText';
+import Checkbox from '@material-ui/core/Checkbox';
+import Icon from '@material-ui/core/Icon';
+import IconButton from '@material-ui/core/IconButton';
+import { useDispatch } from 'react-redux';
+import './todo.scss'
 
-class TodoRow extends Component {
-  render() {
-    const { todo, handleRemoveTodo, handleCompleteTodo } = this.props;
 
-    return (
+const TodoRow = (props) => {
+
+  const { todo, handleRemoveTodo, handleCompleteTodo } = props;
+  const dispatch = useDispatch();
+
+
+
+  return (
+    <div className='todo-content'>
       <ListItem
-        primaryText={todo.text}
-        leftCheckbox={
-          <Checkbox
-            onCheck={handleCompleteTodo(todo.id)}
-            checked={todo.completed}
-          />
-        }
-        rightIconButton={
-          <IconButton onTouchTap={handleRemoveTodo(todo.id)}>
-            <FontIcon
-              className="material-icons"
-              color="red"
-            >
-              clear
-            </FontIcon>
-          </IconButton>
-        }
-        style={todo.completed ? styles.completed : {}}
-      />
-    );
-  }
+      >
+        <Checkbox
+          style={todo.completed ? styles.completed : {}}
+          onChange={() => handleCompleteTodo(todo)}
+          checked={todo.completed}
+        />
+        <ListItemText primary={todo.text} />
+        <div onClick={() => handleRemoveTodo(todo.id)}>
+          <Icon
+            className="material-icons"
+            color="red"
+          >
+            clear
+          </Icon>
+        </div>
+      </ListItem>
+    </div>
+  );
 }
+
 
 const styles = {
   completed: {

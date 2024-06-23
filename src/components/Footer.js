@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Divider from 'material-ui/Divider';
+import Divider from '@material-ui/core/Divider';
 
 import TodoActions from './TodoActions';
 
@@ -14,6 +14,7 @@ const Footer = ({ todos, currentFilter, handleFilter, handleRemoveCompleted, han
           {leftTodos} items left
         </span>
         <TodoActions
+          todos={todos}
           currentFilter={currentFilter}
           handleFilter={handleFilter}
           handleRemoveCompleted={handleRemoveCompleted}
