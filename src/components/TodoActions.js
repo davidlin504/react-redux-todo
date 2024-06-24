@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import IconButton from '@material-ui/core/IconButton';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Icon from '@material-ui/core/Icon';
 import { completeFilter, toggleComplete } from '../reducers/todoSlice'
 import { useDispatch } from 'react-redux';
@@ -25,28 +26,16 @@ const TodoActions = (props) => {
     handleCompleteAll,
   } = props;
   return (
-    <div style={styles.container}>
+    <div>
       <RadioGroup
         name="filter"
         defaultSelected={currentFilter}
         onChange={(e, value) => handleFilter(value)}
         style={styles.radioButtonGroup}
       >
-        <Radio
-          name="All"
-          value="all"
-          style={styles.radioButton}
-        /><span>all</span>
-        <Radio
-          name="Active"
-          value="active"
-          style={styles.radioButton}
-        /><span>active</span>
-        <Radio
-          name="Completed"
-          value="completed"
-          style={styles.radioButton}
-        /><span>checked</span>
+        <FormControlLabel value="all" control={<Radio color="primary" />} label="all" />
+        <FormControlLabel value="active" control={<Radio color="primary" />} label="active" />
+        <FormControlLabel value="completed" control={<Radio color="primary" />} label="completed" />
       </RadioGroup>
       <div>
         <IconButton onClick={handleRemoveCompleted}>
@@ -87,9 +76,10 @@ const styles = {
     display: 'flex',
     alignItems: 'center',
     margin: '0 20px',
+    flexDirection: 'row'
   },
   radioButton: {
-    width: 100,
+    // width: 100,
     marginRight: 10,
   },
 };

@@ -1,0 +1,90 @@
+
+.ci-status {
+    padding: 2px 7px 4px;
+    border: 1px solid #eee;
+    white-space: nowrap;
+    border-radius: 4px;
+}
+
+.ci-status.ci-success {
+    color: #108548;
+    border-color: #108548;
+}
+
+.ci-status.ci-failed-with-warnings {
+    color: #FF5050;
+    border-color: #FF5050;
+}
+
+.ci-status.ci-manual {
+    color: #303030;
+    border-color: #303030;
+}
+
+.ci-status svg {
+    height: 13px;
+    width: 13px;
+    overflow: visible;
+}
+
+:not(svg) {
+    transform-origin: 0px 0px;
+}
+
+/* svg.s16 {
+    vertical-align: -3px;
+} */
+
+svg {
+    fill: currentColor;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.badge-primary {
+    color: #fff;
+    background-color: #007bff;
+}
+
+.lab-container .badge {
+    margin-right: 4px;
+    margin-top: 5px;
+}
+
+a {
+    text-decoration: none;
+    background-color: transparent;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  /* border: 1px solid #dddddd; */
+  text-align: left;
+  padding: 8px;
+}
+
+table.table tr td {
+    padding: 10px 16px;
+    line-height: 20px;
+    vertical-align: middle;
+}
+
+/* tr:nth-child(even) {
+  background-color: #dddddd;
+} */

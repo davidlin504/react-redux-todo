@@ -40,9 +40,9 @@ const HomePage = () => {
   )
 
 
-  useEffect(() => {
-    fetchData();
-  }, [fetchData]);
+  // useEffect(() => {
+  //   fetchData();
+  // }, [fetchData]);
 
   const data = useSelector((state) => state.todos || []);
   const [search, setsearch] = useState('');

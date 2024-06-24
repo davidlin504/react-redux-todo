@@ -50,24 +50,26 @@ const TodoList = ({todos}) => {
 
 
   return (
-      <div>
-        <div className='todo-container'>
-          {filteredTodos.map((todo) =>
-            <TodoRow
-              key={todo.id}
-              todo={todo}
-              handleRemoveTodo={handleRemoveTodo}
-              handleCompleteTodo={handleCompleteTodo}
-            />
-          )}
+      <div className='main-section'>
+        <div>
+          <div className='todo-container'>
+            {filteredTodos.map((todo, index) =>
+              <TodoRow
+                key={index}
+                todo={todo}
+                handleRemoveTodo={handleRemoveTodo}
+                handleCompleteTodo={handleCompleteTodo}
+              />
+            )}
+          </div>
+          <Footer
+            todos={filteredTodos}
+            handleFilter={handleFilter}
+            currentFilter={currentFilter}
+            handleRemoveCompleted={handleRemoveCompleted}
+            handleCompleteAll={handleCompleteAll}
+          />
         </div>
-        <Footer
-          todos={filteredTodos}
-          handleFilter={handleFilter}
-          currentFilter={currentFilter}
-          handleRemoveCompleted={handleRemoveCompleted}
-          handleCompleteAll={handleCompleteAll}
-        />
       </div>
     );
 }

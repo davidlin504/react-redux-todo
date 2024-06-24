@@ -86,17 +86,22 @@ export const todoSlice = createSlice({
             ...todo,
             completed: !alreadyCompleted
           }));
-          console.log('xx' + JSON.stringify(filter_todos))
           const updated_ids = filter_todos.map(o => o.id)
           // const not_updated = state.filter(todo => !updated_ids.includes(todo.id))
           // return [...not_updated, ...filter_todos]
-          return state
+          const todos = state
+          updated_ids.forEach(u => {
+              let todo = todos.find(todo => todo.id === u.id);
+              if (todo) {
+                  todo.done = true;
+              }
+          });
+          return todos
         }
     },
     extraReducers(builder) {
       // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(fetchTestsThunk.fulfilled, (state, action) => {
-          console.log('xx', JSON.stringify(action.payload))
           return action.payload
         })
         builder.addCase(fetchTestsThunk.rejected, (state, action) => {

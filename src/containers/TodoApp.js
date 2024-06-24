@@ -8,17 +8,24 @@ import Paper from '@material-ui/core/Paper';
 
 import Header from '../components/Header';
 import SearchTable from '../components/SearchTable';
+import GitSection from '../components/GitSection';
 
 
 const theme = createTheme({
   palette: {
     primary: {
-      // light: 如果省略將從 palette.primary.main 依照 tonalOffset 的值去計算
-      main: '#ff4400',
-      // dark: 如果省略將從 palette.primary.main 依照 tonalOffset 的值去計算,
-      // contrastText: 如果省略將從 palette.primary.main 依照 contrastThreshold 的值去計算
+      light: '#757ce8',
+      main: '#3f50b5',
+      dark: '#002884',
+      contrastText: '#fff',
     },
-  }
+    secondary: {
+      light: '#ff7961',
+      main: '#f44336',
+      dark: '#ba000d',
+      contrastText: '#000',
+    },
+  },
 });
 
 const TodoApp = () => (
@@ -29,6 +36,7 @@ const TodoApp = () => (
       >
         <Header />
         <SearchTable />
+        <GitSection />
       </Paper>
     </div>
   </MuiThemeProvider>

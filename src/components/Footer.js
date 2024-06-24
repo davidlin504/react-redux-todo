@@ -32,7 +32,8 @@ const styles = {
   },
   container: {
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
+
   },
   itemsCount: {
     alignSelf: 'center',

@@ -1,4 +1,4 @@
-import data from '../../data.json';
+import data from '../data.json';
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { login } from '../api/testAPI'
 
