@@ -31,12 +31,32 @@
     transform-origin: 0px 0px;
 }
 
+.ci-table {
+  .sprite {
+      width: 12px;
+      height: 12px;
+      fill: #303030;
+  }
+
+  svg {
+      height: 14px;
+      width: 14px;
+      vertical-align: middle;
+      fill: #666;
+  }
+}
+
 /* svg.s16 {
     vertical-align: -3px;
 } */
 
 svg {
     fill: currentColor;
+}
+
+
+.icon-container {
+  display: inline-block;
 }
 
 .badge {

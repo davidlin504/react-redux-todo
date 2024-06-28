@@ -1,58 +1,48 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { playJobThunk, cancelJobThunk, listJobsThunk } from '../thunks/gitThunk.js'
+import mockData from '../project.js'
 
-const mockData = [
-      {
-        id: 0,
-        name: '#16545',
-        status: 'manual',
-        ci_status: false
-      },
-      {
-        id: 1,
-        name: '#16547',
-        status: 'manual',
-        ci_status: false
-      },
-      {
-        id: 2,
-        name: '#16548',
-        status: 'success',
-        ci_status: false
-      },
-      {
-        id: 3,
-        name: '#16549',
-        status: 'warining',
-        ci_status: false
-      }
-    ]
 
 export const gitSlice = createSlice({
     name: 'git',
-    //dummy data
     initialState: {
       jobs: mockData
     },
-    //responds to the action, takes the current state, handles the action similar to database tables
     reducers: {
-        playJob: (state, action) => {
-            return {
-              jobs: state.jobs.map(job =>
-              job.id === action.payload.id ?
-                {
-                  ...job,
-                  ci_status: !job.ci_status,
-                } :
-                job
-              )
-            }
-
-
-        },
     },
+    extraReducers(builder) {
+      builder.addCase(playJobThunk.fulfilled, (state, action) => {
+        return {
+          jobs: state.jobs.map(job =>
+          job.id === action.meta.arg ?
+            {
+              ...job,
+              ci_status: false,
+            } :
+            job
+          )
+        }
+    })
+    builder.addCase(cancelJobThunk.fulfilled, (state, action) => {
+        return {
+          jobs: state.jobs.map(job =>
+          job.id === action.meta.arg ?
+            {
+              ...job,
+              ci_status: true,
+            } :
+            job
+          )
+        }
+    })
+    builder.addCase(listJobsThunk.fulfilled, (state, action) => {
+      state.jobs = action.payload.map(({ id, name, ref, status, stage }) => ({ id, name, ref, status, stage }))
+      return state
+    })
+  },
 });
 
 
-export const { playJob } = gitSlice.actions;
+export const { } = gitSlice.actions;
 
 export default gitSlice.reducer;

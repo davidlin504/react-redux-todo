@@ -14,6 +14,7 @@
     "@testing-library/user-event": "^12.8.3",
     "axios": "^1.7.2",
     "bootstrap": "^5.1.1",
+    "dotenv-expand": "^11.0.6",
     "formsy-material-ui": "^0.6.3",
     "formsy-react": "^2.3.2",
     "react": "^17.0.2",

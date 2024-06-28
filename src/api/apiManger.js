@@ -1,5 +1,6 @@
 import axios, { AxiosError } from 'axios'
-import { endpoint } from '../lib/constants'
+import { gitlab_endpoint, local_endpoint } from '../lib/constants'
+
 
 function createInstance({
   endpoint,
@@ -14,7 +15,7 @@ function createInstance({
 
   if (withToken) {
     instance.interceptors.request.use(req => {
-      const token = getIDToken()
+      const token = process.env.REACT_APP_GIT_TOKEN
       if (token) {
         req.headers = {
           ...req.headers,
@@ -22,25 +23,14 @@ function createInstance({
         }
         return req
       }
-      return Promise.reject(new Error(INVALID_ID_TOKEN))
+      return Promise.reject(new Error('INVALID_ID_TOKEN'))
     })
     instance.interceptors.response.use(
       res => {
-        const expiredStamp = res.data?.token_expired_stamp
-        if (typeof expiredStamp === 'string') {
-          updateExpiredStamp(expiredStamp)
-          eventHub.dispatch(AppEvents.UpdateExpiredStamp, { expiredStamp })
-        }
         return res
       },
       (err) => {
-        if (
-          err.response?.status === 401 &&
-          (err.response?.data)?.message === 'Unauthorized'
-        ) {
-          eventHub.dispatch(AppEvents.Logout)
-        }
-        return Promise.reject(err.response)
+        return Promise.reject(err)
       },
     )
   }
@@ -48,4 +38,11 @@ function createInstance({
   return instance
 }
 
-export const publicInstance = createInstance({ endpoint })
+export const gitLabInstance = createInstance({
+  endpoint: gitlab_endpoint,
+  withToken: true,
+})
+
+export const publicInstance = createInstance({
+  endpoint: local_endpoint,
+})

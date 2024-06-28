@@ -1,27 +1,55 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import '../styles/table.scss'
+import '../styles/app.scss'
 import Icon from '@material-ui/core/Icon';
 import { useSelector, useDispatch } from 'react-redux';
-import { playJob } from '../reducers/gitSlice'
+import { playJobThunk, cancelJobThunk, listJobsThunk } from '../thunks/gitThunk'
 
 const GitSection = () => {
-  const data = useSelector((state) => state.git.jobs || []);
+  const jobs = useSelector((state) => state.git.jobs || []);
+  const [ isloading, setIsLoading ] = useState(false)
 
   const dispatch = useDispatch();
 
-  const handlePlayJob = (id) => {
-    dispatch(playJob({ id }));
-  };
+  const listJobsCallback = useCallback(
+    () => {
+      setIsLoading(true)
+      dispatch(listJobsThunk())
+      .unwrap()
+      .finally(() => setIsLoading(false))
+  })
 
+  const playJobCallback = useCallback(
+    (data) => {
+      setIsLoading(true)
+      dispatch(playJobThunk(data))
+      .unwrap()
+      .finally(() => setIsLoading(false))
+  })
+
+  const cancelJobCallback = useCallback(
+    (data) => {
+      setIsLoading(true)
+      dispatch(cancelJobThunk(data))
+      .unwrap()
+      .finally(() => setIsLoading(false))
+  })
+
+  // useEffect(() => {
+  //   listJobsCallback();
+  // }, [jobs]);
+  const latest3_jobs = jobs.slice(0, 3)
   return (
     <div>
-      <table>
+      <button onClick={() => listJobsCallback()}>fetch git</button>
+      <table className='ci-table'>
         <tr>
           <th>Status</th>
           <th>Job</th>
+          <th>Action</th>
           <th>Name</th>
         </tr>
-        {data.map((job) =>
+        {latest3_jobs.map((job) =>
           <tr key={job.id}>
             <td><a target="_blank" class="ci-status ci-manual has-tooltip" title="" data-html="true"
                     href="https://gitlabvm.asusautomation.com/stanley/spx_taas_v1.19/-/jobs/16340"
@@ -32,12 +60,25 @@ const GitSection = () => {
                 </a>
             </td>
             <td>
+              <span>#{job.id}</span>
+              <div class="icon-container">
+                <svg class="s16 sprite" data-testid="fork-icon">
+                <use xlinkHref="icons.svg#fork"></use></svg>
+              </div>
+              <span>{job.ref}</span>
+              <div class="label-container">
+                  <span class="badge badge-primary">
+                      stanley_runner
+                      </span>
+              </div>
+            </td>
+            <td>
             {job.ci_status ? (
               // <a title="Play" class="btn btn-build" rel="nofollow" data-method="post" href="/stanley/spx_taas_v1.19/-/jobs/16363/play?return_to=https%3A%2F%2Fgitlabvm.asusautomation.com%2Fstanley%2Fspx_taas_v1.19%2F-%2Fjobs">
               // <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 11" class="icon-play"><path fill-rule="evenodd" d="m9.283 6.47l-7.564 4.254c-.949.534-1.719.266-1.719-.576v-9.292c0-.852.756-1.117 1.719-.576l7.564 4.254c.949.534.963 1.392 0 1.934"></path></svg>
               // </a>
-              <div onClick={() => handlePlayJob(job.id)}>
-                <Icon>PlayArrow</Icon>
+              <div onClick={() => playJobCallback(job.id)}>
+                <Icon>play_arrow</Icon>
               </div>
             ) : (
               // <a title="Cancel"
@@ -45,13 +86,12 @@ const GitSection = () => {
               //   rel="nofollow" data-method="post" href="/stanley/spx_taas_v1.19/-/jobs/16545/cancel?continue%5Bto%5D=%2Fstanley%2Fspx_taas_v1.19%2F-%2Fjobs">
               //   {/* <svg class="s16" data-testid="close-icon"><use xlinkHref="/icons.svg#close"></use></svg> */}
               // </a>
-              <div onClick={() => handlePlayJob(job.id)}>
-                <Icon>HighlightOff</Icon>
+              <div onClick={() => cancelJobCallback(job.id)}>
+                <Icon>cancel</Icon>
               </div>
             )}
             </td>
             <td>{job.name}</td>
-            <td>Taas</td>
           </tr>
         )}
       </table>

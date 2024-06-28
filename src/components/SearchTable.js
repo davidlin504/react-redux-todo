@@ -7,6 +7,7 @@ import Icon from '@material-ui/core/Icon';
 import '../styles/app.scss'
 import { fetchTestsThunk } from '../reducers/todoSlice'
 import { loginThunk } from '../reducers/userSlice'
+import TextField from '@material-ui/core/TextField';
 
 const HomePage = () => {
   const { isLoading, setIsLoading } = useState(false)
@@ -61,27 +62,26 @@ const HomePage = () => {
     // debounceLoadData(text)
   };
 
+  function onkeypressed(evt, setsearch) {
+      let code = evt.charCode || evt.keyCode;
+      if (code == 27) {
+          setsearch('');
+      }
+  }
+
+
   const rawData = changeSearchData(search)
 
   return (
     <div className={styles.container}>
-      {/* <form onSubmit={() => onSubmitCallback(data)}>
-      </form> */}
       <div className='search-section'>
-        <input
-          className={styles.search}
+        <TextField
+          placeholder='key words ...'
+          helperText='Search press esc to clear'
           value={search}
-          placeholder='Search'
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={e => handleSearch(e.target.value)}
+          onKeyDown={e => onkeypressed(e, setsearch)}
         />
-        <div onClick={() => setsearch('')}>
-          <Icon
-              className="material-icons"
-              color="error"
-            >
-              clear
-          </Icon>
-        </div>
       </div>
       <TableContainer data={rawData} />
     </div>

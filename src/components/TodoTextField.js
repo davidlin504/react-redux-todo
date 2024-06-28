@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 
 import TextField from '@material-ui/core/TextField';
 
-const Header = (props) => {
-  const { onSubmit } = props
+const TodoTextField = (props) => {
+  const {
+    onSubmit,
+    placeholder = 'What do you need to do?',
+    helperText = 'What do you need to do?',
+    clearInput = true } = props
   const [text, setText] = useState('')
 
 
@@ -18,14 +22,16 @@ const Header = (props) => {
     if (e.which === 13) {
       onSubmit(value);
 
-      setText('')
+      if (clearInput) {
+        setText('')
+      }
     }
   };
 
   return (
     <TextField
-      hintText="What do you need to do?"
-      floatingLabelText="What do you need to do?"
+      placeholder={placeholder}
+      helperText={helperText}
       value={text}
       onChange={onChange}
       onKeyDown={onKeyDown}
@@ -41,4 +47,4 @@ const styles = {
   },
 };
 
-export default Header;
+export default TodoTextField;

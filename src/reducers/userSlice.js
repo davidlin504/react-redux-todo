@@ -30,6 +30,7 @@ export const todoSlice = createSlice({
         // Add reducers for additional action types here, and handle loading state as needed
         builder.addCase(loginThunk.fulfilled, (state, { payload }) => {
         state.user = payload
+        return state
       })
     }
 })
