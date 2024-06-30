@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import List from '@material-ui/core/List';
-
 import TodoRow from './TodoRow';
 import Footer from '../components/Footer';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   toggleComplete,
   deleteTodo,
   completeAll,
   removeComplete,
 } from '../reducers/todoSlice'
-import { createSelector } from 'reselect'
+import { postTestsThunk } from '../reducers/todoSlice'
+import Button from '@material-ui/core/Button';
+
 
 const TodoList = ({todos}) => {
 
@@ -37,6 +37,10 @@ const TodoList = ({todos}) => {
     dispatch(completeAll());
   };
 
+  const handlePostAction = (payload) => {
+    dispatch(postTestsThunk(payload)).unwrap()
+  }
+
   const filteredTodos = todos.filter(({ completed }) => {
       switch (currentFilter) {
         case 'completed':
@@ -62,6 +66,7 @@ const TodoList = ({todos}) => {
               />
             )}
           </div>
+          <Button variant="contained" onClick={() => handlePostAction(todos)}>Save tests</Button>
           <Footer
             todos={filteredTodos}
             handleFilter={handleFilter}

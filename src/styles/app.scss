@@ -14,3 +14,14 @@
 .todo-container::-webkit-scrollbar {
     display: none;
 }
+
+.git-section .action button {
+  margin: 0 5px;
+}
+
+.git-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+}

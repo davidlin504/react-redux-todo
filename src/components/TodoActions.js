@@ -4,19 +4,26 @@ import RadioGroup from '@material-ui/core/RadioGroup';
 import IconButton from '@material-ui/core/IconButton';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Icon from '@material-ui/core/Icon';
-import { completeFilter, toggleComplete } from '../reducers/todoSlice'
+import { toggleComplete, unSelect } from '../reducers/todoSlice'
 import { useDispatch } from 'react-redux';
+
 
 
 const TodoActions = (props) => {
   const dispatch = useDispatch();
 
-  const handleCompleteFilter = (todos) => {
+  const handleFilterCheck = (todos) => {
     todos.map(todo => {
       dispatch(toggleComplete(todo))
     })
-    // dispatch(completeFilter({todos}))
   }
+
+  const handleUnselect = (todos) => {
+    todos.map(todo => {
+      dispatch(unSelect(todo))
+    })
+  }
+
 
   const {
     todos,
@@ -38,7 +45,7 @@ const TodoActions = (props) => {
         <FormControlLabel value="completed" control={<Radio color="primary" />} label="completed" />
       </RadioGroup>
       <div>
-        <IconButton onClick={handleRemoveCompleted}>
+        <IconButton onClick={() => handleUnselect(todos)}>
           <Icon
             className="material-icons"
             color="error"
@@ -54,7 +61,7 @@ const TodoActions = (props) => {
             done_all
           </Icon>
         </IconButton>
-        <IconButton onClick={() => handleCompleteFilter(todos)}>
+        <IconButton onClick={() => handleFilterCheck(todos)}>
           <Icon
             className="material-icons"
             color="info"

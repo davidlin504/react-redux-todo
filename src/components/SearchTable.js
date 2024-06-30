@@ -8,6 +8,10 @@ import '../styles/app.scss'
 import { fetchTestsThunk } from '../reducers/todoSlice'
 import { loginThunk } from '../reducers/userSlice'
 import TextField from '@material-ui/core/TextField';
+import NativeSelect from '@material-ui/core/NativeSelect';
+import FormHelperText from '@material-ui/core/FormHelperText';
+import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 const HomePage = () => {
   const { isLoading, setIsLoading } = useState(false)
@@ -40,18 +44,18 @@ const HomePage = () => {
       [dispatch],
   )
 
-
   // useEffect(() => {
   //   fetchData();
   // }, [fetchData]);
 
   const data = useSelector((state) => state.todos || []);
   const [search, setsearch] = useState('');
+  const [group, setGroup] = useState('');
   const [searchData, setsearchData] = useState(data);
 
   const changeSearchData = (text) => {
     return data.filter((el) => {
-        return el.text.toLowerCase().indexOf(text.toLowerCase()) > -1;
+        return el.tag.toLowerCase().indexOf(text.toLowerCase()) > -1;
     })
   };
 
@@ -69,12 +73,12 @@ const HomePage = () => {
       }
   }
 
+  const rawData = !group ? changeSearchData(search) : changeSearchData(group)
 
-  const rawData = changeSearchData(search)
 
   return (
     <div className={styles.container}>
-      <div className='search-section'>
+      <FormControl className='search-section'>
         <TextField
           placeholder='key words ...'
           helperText='Search press esc to clear'
@@ -82,7 +86,23 @@ const HomePage = () => {
           onChange={e => handleSearch(e.target.value)}
           onKeyDown={e => onkeypressed(e, setsearch)}
         />
-      </div>
+      </FormControl>
+      <FormControl>
+        <InputLabel htmlFor="age-native-helper">Group</InputLabel>
+        <NativeSelect
+          value={group}
+          onChange={(e) => setGroup(e.target.value)}
+          inputProps={{
+            name: 'age',
+            id: 'age-native-helper',
+          }}
+          >
+          <option aria-label="None" value='' />
+          <option value="tasks1">tasks1</option>
+          <option value="tasks2">tasks2</option>
+        </NativeSelect>
+        <FormHelperText>Some important helper text</FormHelperText>
+        </FormControl>
       <TableContainer data={rawData} />
     </div>
   );

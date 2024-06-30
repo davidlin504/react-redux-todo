@@ -34,7 +34,7 @@ const TodoApp = () => (
       <Paper
         style={styles.paper}
       >
-        <Header />
+        {/* <Header /> */}
         <SearchTable />
         <GitSection />
       </Paper>

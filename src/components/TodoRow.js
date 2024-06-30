@@ -24,15 +24,15 @@ const TodoRow = (props) => {
           onChange={() => handleCompleteTodo(todo)}
           checked={todo.completed}
         />
-        <ListItemText primary={todo.text} />
-        <div onClick={() => handleRemoveTodo(todo.id)}>
+        <ListItemText primary={todo.tag} />
+        {/* <div onClick={() => handleRemoveTodo(todo.id)}>
           <Icon
             className="material-icons"
             color="red"
           >
             clear
           </Icon>
-        </div>
+        </div> */}
       </ListItem>
     </div>
   );

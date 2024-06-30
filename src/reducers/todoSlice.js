@@ -1,13 +1,27 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { testAPI } from '../api/testAPI'
+import { getTests, postTests } from '../api/testAPI'
 
 
 export const fetchTestsThunk = createAsyncThunk(
   'todos/fetchTests',
   async (_ignored, { getState, fulfillWithValue, rejectWithValue }) => {
     try {
-      const response = await testAPI()
+      const response = await getTests()
       return fulfillWithValue(response.data)
+    } catch (err) {
+      console.error(err)
+      return rejectWithValue([])
+    }
+  },
+)
+
+export const postTestsThunk = createAsyncThunk(
+  'todos/postTests',
+  async (payload, { getState, fulfillWithValue, rejectWithValue }) => {
+    try {
+      await postTests(payload)
+      // const response = await postTests(payload)
+      // return fulfillWithValue(response.data)
     } catch (err) {
       console.error(err)
       return rejectWithValue([])
@@ -21,27 +35,32 @@ export const todoSlice = createSlice({
     initialState: [
       {
         id: 0,
-        text: 'This is a todo',
+        tag: 'This is a todo',
+        flag: '-e',
         completed: false,
       },
       {
         id: 1,
-        text: 'tasks1',
+        tag: 'tasks1',
+        flag: '-e',
         completed: false,
       },
       {
         id: 2,
-        text: 'tasks2',
+        tag: 'tasks2',
+        flag: '-e',
         completed: false,
       },
       {
         id: 3,
-        text: 'tasks3',
+        tag: 'tasks3',
+        flag: '-e',
         completed: false,
       },
       {
         id: 4,
-        text: 'tasks4',
+        tag: 'tasks4',
+        flag: '-e',
         completed: false,
       },
     ],
@@ -50,7 +69,7 @@ export const todoSlice = createSlice({
         addTodo: (state, action) => {
             const todo = {
                 id: state.length,
-                text: action.payload.text,
+                tag: action.payload.tag,
                 completed: false,
             };
             state.push(todo);
@@ -63,6 +82,7 @@ export const todoSlice = createSlice({
               {
                 ...todo,
                 completed: !action.payload.completed,
+                flag: !action.payload.completed ? '-i' : '-e',
               } :
               todo
           );
@@ -74,30 +94,42 @@ export const todoSlice = createSlice({
             const alreadyCompleted = state.every(({ completed }) => completed);
             return state.map(todo => ({
               ...todo,
-              completed: !alreadyCompleted
+              completed: !alreadyCompleted,
+              flag: !alreadyCompleted ? '-i' : '-e'
             }));
         },
         removeComplete: (state) => {
           return state.filter(todo => todo.completed === false);
         },
-        completeFilter: (state, action) => {
-          const alreadyCompleted = action.payload.todos.every(({ completed }) => completed);
-          const filter_todos = action.payload.todos.map(todo => ({
-            ...todo,
-            completed: !alreadyCompleted
-          }));
-          const updated_ids = filter_todos.map(o => o.id)
-          // const not_updated = state.filter(todo => !updated_ids.includes(todo.id))
-          // return [...not_updated, ...filter_todos]
-          const todos = state
-          updated_ids.forEach(u => {
-              let todo = todos.find(todo => todo.id === u.id);
-              if (todo) {
-                  todo.done = true;
-              }
-          });
-          return todos
+        unSelect: (state, action) => {
+          return state.map(todo =>
+            todo.id === action.payload.id ? {
+              ...todo,
+              completed: false,
+              flag: '-e'
+            } :
+            todo
+          );
         }
+        // need refactor
+        // completeFilter: (state, action) => {
+        //   const alreadyCompleted = action.payload.todos.every(({ completed }) => completed);
+        //   const filter_todos = action.payload.todos.map(todo => ({
+        //     ...todo,
+        //     completed: !alreadyCompleted,
+        //   }));
+        //   const updated_ids = filter_todos.map(o => o.id)
+        //   // const not_updated = state.filter(todo => !updated_ids.includes(todo.id))
+        //   // return [...not_updated, ...filter_todos]
+        //   const todos = state
+        //   updated_ids.forEach(u => {
+        //       let todo = todos.find(todo => todo.id === u.id);
+        //       if (todo) {
+        //           todo.done = true;
+        //       }
+        //   });
+        //   return todos
+        // }
     },
     extraReducers(builder) {
       // Add reducers for additional action types here, and handle loading state as needed
@@ -112,6 +144,12 @@ export const todoSlice = createSlice({
 });
 
 
-export const { addTodo, toggleComplete, deleteTodo, completeAll, removeComplete, completeFilter } = todoSlice.actions;
+export const {
+  addTodo,
+  toggleComplete,
+  deleteTodo,
+  completeAll,
+  removeComplete,
+  unSelect } = todoSlice.actions;
 
 export default todoSlice.reducer;

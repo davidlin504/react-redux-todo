@@ -1,6 +1,6 @@
 import { publicInstance } from './apiManger'
 
-export async function testAPI() {
+export async function getTests() {
   try {
     const res = await publicInstance.get(
       '/tests',
@@ -10,6 +10,12 @@ export async function testAPI() {
     console.err(err)
     Promise.reject(err)
   }
+}
+
+export async function postTests(payload) {
+  // const res = await publicInstance.post('/', payload)
+  // return res.data
+  return {data: {}}
 }
 
 export async function login(payload) {
